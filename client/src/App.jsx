@@ -3,33 +3,43 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+/*
+  1. create a function 'App'
+  2. create state vars
+  3. fn to run when the button is clicked (use async-await)
+  4. send req to backend to connect
+  5. convert res to json
+  6. update UI state
+*/
 
+function App() {
+  const [input, setInput] = useState("");                     //to store i/p
+  const [reply, setReply] = useState("");                     //to store backend response
+
+  const sendMessage = async ()=>{
+    const res = await fetch("http://localhost:5000/message",{
+      method: "POST",
+      headers: {
+        "Content-Type":"application/json"
+      },
+      body: JSON.stringify({message:input})
+    });
+
+    const data = await res.json();
+    setReply(data.reply);
+  };
+  
+  
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div style = {{textAlign:"center", marginTop:"50px"}}>
+        <h1>Real-Time AI Meeting Assistant</h1>
+        <input value={input} onChange={(e)=>setInput(e.target.value)} placeholder="type something..." />
+        <button onClick={sendMessage}>Send</button>
+        <p>{reply}</p>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
