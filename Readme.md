@@ -34,6 +34,6 @@ An AI-powered meeting assistant that converts unstructured meeting input into st
 
 ## Screenshots
 
-![Home] (./screenshots/home.png)
+![Home] (./home.png)
 
-![Output] (./screenshots/output.png)
+![Output] (./output.png)
