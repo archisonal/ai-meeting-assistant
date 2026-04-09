@@ -7,23 +7,53 @@ app.use(express.json());
 
 
 //creating a POST API endpoint and sending response in JSON
-app.post("/message", (req, res) => {
-  console.log("Request received:", req.body);
-
+app.post("/message", async (req, res) => {
   try {
-    const userMessage = req.body?.message;
+    const userMessage = req.body.message;
 
-    if (!userMessage) {
-      return res.json({ reply: "No message received from frontend" });
-    }
+    const response = await fetch("http://localhost:11434/api/generate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        model: "llama3",
+        prompt: `
+        You are an AI meeting assistant.
+
+        Analyze the meeting notes and respond STRICTLY in this format:
+
+        Summary:
+        (2-3 lines summary)
+
+        Key Points:
+        - point 1
+        - point 2
+        - point 3
+
+        Action Items:
+        - action 1
+        - action 2
+        - action 3
+
+        Do NOT add any extra text, explanation, or questions.
+
+        Meeting Notes:
+        ${userMessage}
+        `,
+        stream: false
+      })
+    });
+
+    const data = await response.json();
 
     res.json({
-      reply: `AI says: I understand ${userMessage}`
+      reply: data.response
     });
 
   } catch (error) {
     console.error("ERROR:", error);
-    res.status(500).json({ error: "Something broke" });
+    res.status(500).json({ error: "AI failed" });
   }
 });
 //starting the server on port 5000
