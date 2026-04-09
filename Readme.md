@@ -34,6 +34,6 @@ An AI-powered meeting assistant that converts unstructured meeting input into st
 
 ## Screenshots
 
-![Home](./Screenshot 2026-04-10 005714)
+![Home] (./Screenshot 2026-04-10 005714)
 
-![Output](./Screenshot 2026-04-10 005701)
+![Output] ([./Screenshot 2026-04-10 005701](https://github.com/archisonal/ai-meeting-assistant/blob/master/screenshots/Screenshot%202026-04-10%20005701.png))
